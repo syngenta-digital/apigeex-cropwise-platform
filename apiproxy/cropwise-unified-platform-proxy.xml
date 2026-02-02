@@ -17,6 +17,7 @@
         <Policy>AM-Set-Low-Rate-Header</Policy>
         <Policy>AM-Set-Medium-Rate-Header</Policy>
         <Policy>AM-Set-Rate-Limit-Headers</Policy>
+        <Policy>AM-Enable-Streaming</Policy>
         <Policy>EV-Extract-JWT-Token</Policy>
         <Policy>FC-Syng-ErrorHandling</Policy>
         <Policy>FC-Syng-Logging</Policy>
@@ -25,6 +26,7 @@
         <Policy>JS-Parse-JWT-Token</Policy>
         <Policy>KVM-Get-User-Rate-Limit</Policy>
         <Policy>RF-APINotFound</Policy>
+        <Policy>RF-PayloadTooLarge</Policy>
     </Policies>
     <ProxyEndpoints>
         <ProxyEndpoint>default</ProxyEndpoint>

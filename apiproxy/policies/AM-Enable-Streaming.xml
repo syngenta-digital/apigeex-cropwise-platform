@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+    AM-Enable-Streaming Policy
+    
+    Purpose: Enables request and response streaming for handling large payloads (> 10 MB)
+    
+    When streaming is enabled:
+    - Payloads larger than 10 MB can be processed
+    - Data is forwarded as it's received without full buffering
+    - Lower memory consumption and latency for large transfers
+    
+    Limitations when streaming is enabled:
+    - Cannot transform payload content (JavaScript, XSLT)
+    - Cannot validate payload content (JSONThreatProtection, XMLThreatProtection)
+    - Cannot log payload content (only headers)
+    - Cannot parse payload (JSONToXML, XMLToJSON)
+    
+    Use for:
+    - File uploads/downloads
+    - Large data exports
+    - Binary content transfer
+    - Remote sensing imagery
+    
+    Apply conditionally on flows that handle large payloads:
+    
+    <Flow name="large-file-operations">
+        <Request>
+            <Step>
+                <Name>AM-Enable-Streaming</Name>
+            </Step>
+        </Request>
+        <Condition>(proxy.pathsuffix MatchesPath "/files/**") or 
+                   (proxy.pathsuffix MatchesPath "/exports/**")</Condition>
+    </Flow>
+    
+    Or apply based on Content-Length header:
+    
+    <Step>
+        <Name>AM-Enable-Streaming</Name>
+        <Condition>(request.header.Content-Length > 10000000)</Condition>
+    </Step>
+-->
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-Enable-Streaming">
+    <DisplayName>AM-Enable-Streaming</DisplayName>
+    <Properties/>
+    
+    <!-- Enable request streaming for large incoming payloads -->
+    <AssignVariable>
+        <Name>request.streaming.enabled</Name>
+        <Value>true</Value>
+    </AssignVariable>
+    
+    <!-- Enable response streaming for large outgoing payloads -->
+    <AssignVariable>
+        <Name>response.streaming.enabled</Name>
+        <Value>true</Value>
+    </AssignVariable>
+    
+    <!-- Optional: Set a custom header to indicate streaming mode is active -->
+    <Set>
+        <Headers>
+            <Header name="X-Streaming-Enabled">true</Header>
+        </Headers>
+    </Set>
+    
+    <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+    RF-PayloadTooLarge Policy
+    
+    Purpose: Returns a standardized 413 error when request payload exceeds size limits
+    
+    Usage: Apply in PreFlow with Content-Length condition:
+    
+    <PreFlow>
+        <Request>
+            <Step>
+                <Name>RF-PayloadTooLarge</Name>
+                <Condition>(request.header.Content-Length > 31457280)</Condition>
+            </Step>
+        </Request>
+    </PreFlow>
+    
+    The condition checks if Content-Length exceeds 30 MB (31,457,280 bytes).
+    
+    For endpoints with streaming enabled, you may want to adjust or skip this check.
+-->
+<RaiseFault async="false" continueOnError="false" enabled="true" name="RF-PayloadTooLarge">
+    <DisplayName>RF-PayloadTooLarge</DisplayName>
+    <FaultResponse>
+        <Set>
+            <StatusCode>413</StatusCode>
+            <ReasonPhrase>Payload Too Large</ReasonPhrase>
+            <Payload contentType="application/json">
+{
+    "error": "payload_too_large",
+    "error_description": "Request payload exceeds the maximum allowed size",
+    "details": {
+        "max_size_bytes": 31457280,
+        "max_size_mb": 30,
+        "max_size_buffered_mb": 30,
+        "max_size_streaming_mb": "unlimited (performance degrades above 10 MB)"
+    },
+    "suggestions": [
+        "Enable streaming mode for large file transfers",
+        "Use chunked upload for files larger than 30 MB",
+        "Consider using signed URLs for direct cloud storage access",
+        "Contact API support for alternative upload methods"
+    ],
+    "requestId": "{messageid}",
+    "path": "{request.uri}",
+    "timestamp": "{system.timestamp}",
+    "support": {
+        "contact": "CropwisePlatform team via Slack #cropwise-platform-support",
+        "documentation": "https://docs.cropwise.com/api/limits"
+    }
+}
+            </Payload>
+        </Set>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>
