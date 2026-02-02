@@ -3,7 +3,8 @@
     <DisplayName>EV-Extract-JWT-Token</DisplayName>
     <Source>request</Source>
     <Header name="Authorization">
-        <Pattern ignoreCase="true">Bearer {jwt.token}</Pattern>
+        <Pattern ignoreCase="true">Bearer {token}</Pattern>
     </Header>
-    <VariablePrefix>extracted</VariablePrefix>
+    <VariablePrefix>jwt</VariablePrefix>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
 </ExtractVariables>

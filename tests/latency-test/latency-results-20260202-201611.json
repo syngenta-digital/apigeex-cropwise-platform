@@ -1,0 +1,160 @@
+{
+  "timestamp": "20260202-201611",
+  "configuration": {
+    "proxy_url": "https://dev.api.cropwise.com/cropwise-unified-platform",
+    "target_url": "https://api.staging.base.cropwise.com",
+    "proxy_endpoint": "/accounts/me",
+    "target_endpoint": "/v2/accounts/me",
+    "num_requests": 10
+  },
+  "proxy": {
+    "statistics": {
+      "count": 10,
+      "success_rate": 100.0,
+      "min": 535.6,
+      "max": 1294.55,
+      "average": 805.86,
+      "median": 758.88,
+      "std_dev": 227.42
+    },
+    "results": [
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 842.0907999388874,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 723.9349000155926,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 652.8827003203332,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 859.4244001433253,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 614.3105002120137,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 535.598199814558,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 793.8151997514069,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 1063.36440006271,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 1294.5493003353477,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 678.5968001931906,
+        "error": null
+      }
+    ]
+  },
+  "target": {
+    "statistics": {
+      "count": 10,
+      "success_rate": 100.0,
+      "min": 864.02,
+      "max": 1797.39,
+      "average": 1309.04,
+      "median": 1260.53,
+      "std_dev": 323.22
+    },
+    "results": [
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 1080.7125000283122,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 1797.3939999938011,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 1353.401799686253,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 1760.7014998793602,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 1620.5544997937977,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 1312.8161001950502,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 1208.2529999315739,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 864.0209003351629,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 1033.8571998290718,
+        "error": null
+      },
+      {
+        "success": true,
+        "status_code": 200,
+        "latency_ms": 1058.6976995691657,
+        "error": null
+      }
+    ]
+  },
+  "comparison": {
+    "overhead_ms": -503.18,
+    "overhead_percent": -38.44
+  }
+}

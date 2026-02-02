@@ -24,13 +24,31 @@
             </Step>
             <Step>
                 <Name>JS-Parse-JWT-Token</Name>
-            </Step>
-            <Step>
-                <Name>KVM-Get-User-Rate-Limit</Name>
+                <Condition>(jwt.token != null)</Condition>
             </Step>
             <Step>
                 <Name>AM-Set-Default-Rate-Limit</Name>
-                <Condition>user.rate.limit.type = null</Condition>
+                <Condition>(jwt.valid = true) and (user.rate.limit.type = null)</Condition>
+            </Step>
+            <Step>
+                <Name>KVM-Get-User-Rate-Limit</Name>
+                <Condition>(jwt.valid = true) and (jwt.username != null)</Condition>
+            </Step>
+            <Step>
+                <Name>AM-Set-Rate-Limit-Headers</Name>
+                <Condition>(jwt.valid = true) and (jwt.username != null) and (jwt.client_id != null)</Condition>
+            </Step>
+            <Step>
+                <Name>AM-Set-Low-Rate-Header</Name>
+                <Condition>(jwt.valid = true) and ((user.rate.limit.type = "low-rate") or (user.rate.limit.type = "readonly-low-rate"))</Condition>
+            </Step>
+            <Step>
+                <Name>AM-Set-Medium-Rate-Header</Name>
+                <Condition>(jwt.valid = true) and ((user.rate.limit.type = "medium-rate") or (user.rate.limit.type = "readonly-medium-rate"))</Condition>
+            </Step>
+            <Step>
+                <Name>AM-Set-High-Rate-Header</Name>
+                <Condition>(jwt.valid = true) and ((user.rate.limit.type = "high-rate") or (user.rate.limit.type = "readonly-high-rate"))</Condition>
             </Step>
         </Request>
         <Response/>
@@ -38,9 +56,6 @@
     <PostFlow name="PostFlow">
         <Request/>
         <Response>
-            <Step>
-                <Name>AM-Set-Rate-Limit-Headers</Name>
-            </Step>
             <Step>
                 <Name>FC-Syng-Logging</Name>
             </Step>
