@@ -425,7 +425,7 @@ def generate_report(all_results: List[Dict]) -> str:
     
     os.makedirs("latency-test", exist_ok=True)
     
-    with open(report_file, "w") as f:
+    with open(report_file, "w", encoding="utf-8") as f:
         f.write("# Network Latency Analysis Report\n\n")
         f.write(f"**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         f.write("---\n\n")
@@ -576,7 +576,7 @@ def print_summary(all_results: List[Dict]):
     print(f"{Fore.WHITE}{'-'*70}")
     
     for result in all_results:
-        name = f"{result['location']} → {result['name']}"
+        name = f"{result['location']} -> {result['name']}"  # Use -> instead of → for console
         if result.get('latency'):
             lat_str = f"{result['latency']['avg']:.2f}ms"
             success_str = f"{result['success_rate']:.1f}%"
@@ -637,7 +637,7 @@ def main():
             
             # Save JSON results
             json_file = report_file.replace(".md", ".json")
-            with open(json_file, "w") as f:
+            with open(json_file, "w", encoding="utf-8") as f:
                 json.dump(all_results, f, indent=2)
             print(f"{Fore.GREEN}✓ JSON results saved to: {json_file}")
         else:
