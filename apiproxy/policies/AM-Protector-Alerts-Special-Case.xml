@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-Protector-Alerts-Special-Case">
+    <DisplayName>AM-Protector-Alerts-Special-Case</DisplayName>
+    <AssignVariable>
+        <Name>is.protector.alerts.user</Name>
+        <Value>true</Value>
+    </AssignVariable>
+    <Set>
+        <Headers>
+            <Header name="X-Protector-Alerts">true</Header>
+        </Headers>
+    </Set>
+    <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>

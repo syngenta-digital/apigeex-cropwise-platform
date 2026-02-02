@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-Set-High-Rate-Header">
+    <DisplayName>AM-Set-High-Rate-Header</DisplayName>
+    <AssignVariable>
+        <Name>rate.limit.type</Name>
+        <Value>high-rate</Value>
+    </AssignVariable>
+    <Set>
+        <Headers>
+            <Header name="x-ratelimit-type">high-rate</Header>
+        </Headers>
+    </Set>
+    <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>

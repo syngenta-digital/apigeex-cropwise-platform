@@ -1,0 +1,153 @@
+name: Deploy Cropwise Unified Platform Proxy
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - qa
+          - prod
+
+env:
+  PYTHON_VERSION: '3.9'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Validate proxy structure
+        run: |
+          python scripts/generate_proxy.py --env dev --validate
+
+  build-and-deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    
+    strategy:
+      matrix:
+        include:
+          - branch: develop
+            environment: dev
+          - branch: main
+            environment: qa
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+      
+      - name: Determine environment
+        id: env
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "environment=qa" >> $GITHUB_OUTPUT
+          else
+            echo "environment=dev" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Generate proxy bundle
+        run: |
+          python scripts/generate_proxy.py \
+            --env ${{ steps.env.outputs.environment }} \
+            --output ./dist
+      
+      - name: Deploy to Apigee X
+        run: |
+          BUNDLE=$(ls -t ./dist/*.zip | head -1)
+          python scripts/deploy_proxy.py \
+            --env ${{ steps.env.outputs.environment }} \
+            --bundle "$BUNDLE" \
+            --deploy \
+            --wait
+      
+      - name: Run smoke tests
+        run: |
+          python scripts/test_proxy.py \
+            --env ${{ steps.env.outputs.environment }} \
+            --test-suite smoke \
+            --save-results
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results-${{ steps.env.outputs.environment }}
+          path: dist/test-results-*.json
+
+  deploy-prod:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_PROD_SERVICE_ACCOUNT_KEY }}
+      
+      - name: Generate and deploy to production
+        run: |
+          python scripts/generate_proxy.py --env prod --output ./dist
+          BUNDLE=$(ls -t ./dist/*.zip | head -1)
+          python scripts/deploy_proxy.py \
+            --env prod \
+            --bundle "$BUNDLE" \
+            --deploy \
+            --wait \
+            --timeout 180
+      
+      - name: Run production smoke tests
+        run: |
+          python scripts/test_proxy.py \
+            --env prod \
+            --test-suite smoke \
+            --save-results

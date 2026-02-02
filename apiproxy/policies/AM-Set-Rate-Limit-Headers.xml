@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-Set-Rate-Limit-Headers">
+    <DisplayName>AM-Set-Rate-Limit-Headers</DisplayName>
+    <Set>
+        <Headers>
+            <Header name="x-ratelimit-limit">{rate.limit.value}</Header>
+            <Header name="x-ratelimit-remaining">{rate.limit.remaining}</Header>
+            <Header name="x-ratelimit-reset">{rate.limit.reset}</Header>
+            <Header name="x-ratelimit-type">{rate.limit.type}</Header>
+        </Headers>
+    </Set>
+    <AssignTo createNew="false" transport="http" type="response"/>
+</AssignMessage>

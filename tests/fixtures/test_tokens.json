@@ -1,0 +1,50 @@
+{
+    "tokens": {
+        "valid_user": {
+            "description": "Valid user token for testing",
+            "claims": {
+                "sub": "test.user@syngenta.com",
+                "username": "test.user@syngenta.com",
+                "client_id": "strider-ui",
+                "scope": "read write"
+            }
+        },
+        "protector_alerts_user": {
+            "description": "Protector alerts special user",
+            "claims": {
+                "sub": "protector.alerts.account@syngenta.com",
+                "username": "protector.alerts.account@syngenta.com",
+                "client_id": "strider-ui"
+            }
+        },
+        "expired_token": {
+            "description": "Expired token for testing",
+            "claims": {
+                "sub": "expired.user@syngenta.com",
+                "username": "expired.user@syngenta.com",
+                "client_id": "test-client",
+                "exp": 1609459200
+            }
+        },
+        "high_rate_user": {
+            "description": "User with high rate limit",
+            "claims": {
+                "sub": "high.rate.user@syngenta.com",
+                "username": "high.rate.user@syngenta.com",
+                "client_id": "high-volume-client"
+            },
+            "rate_limit": "high-rate"
+        },
+        "low_rate_user": {
+            "description": "User with low rate limit",
+            "claims": {
+                "sub": "low.rate.user@syngenta.com",
+                "username": "low.rate.user@syngenta.com",
+                "client_id": "limited-client"
+            },
+            "rate_limit": "low-rate"
+        }
+    },
+    "test_secret": "test-secret-key-for-jwt-signing",
+    "algorithm": "HS256"
+}

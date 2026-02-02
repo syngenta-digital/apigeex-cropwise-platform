@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="default">
+    <Description>Default proxy endpoint for Cropwise Unified Platform</Description>
+    <FaultRules>
+        <FaultRule name="handle-faults">
+            <Step>
+                <Name>FC-Syng-ErrorHandling</Name>
+            </Step>
+        </FaultRule>
+    </FaultRules>
+    <DefaultFaultRule>
+        <Step>
+            <Name>FC-Syng-ErrorHandling</Name>
+        </Step>
+        <AlwaysEnforce>true</AlwaysEnforce>
+    </DefaultFaultRule>
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <Name>FC-Syng-Preflow</Name>
+            </Step>
+            <Step>
+                <Name>EV-Extract-JWT-Token</Name>
+            </Step>
+            <Step>
+                <Name>JS-Parse-JWT-Token</Name>
+            </Step>
+            <Step>
+                <Name>KVM-Get-User-Rate-Limit</Name>
+            </Step>
+            <Step>
+                <Name>AM-Set-Default-Rate-Limit</Name>
+                <Condition>user.rate.limit.type = null</Condition>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response>
+            <Step>
+                <Name>AM-Set-Rate-Limit-Headers</Name>
+            </Step>
+            <Step>
+                <Name>FC-Syng-Logging</Name>
+            </Step>
+        </Response>
+    </PostFlow>
+    <Flows>
+        <Flow name="health-check">
+            <Description>Health check endpoint</Description>
+            <Request/>
+            <Response/>
+            <Condition>(proxy.pathsuffix MatchesPath "/health") and (request.verb = "GET")</Condition>
+        </Flow>
+        <Flow name="remote-sensing">
+            <Description>Remote sensing API rewrite</Description>
+            <Request>
+                <Step>
+                    <Name>AM-Rewrite-Remote-Sensing-URI</Name>
+                </Step>
+            </Request>
+            <Response/>
+            <Condition>(proxy.pathsuffix MatchesPath "/remote-sensing/**")</Condition>
+        </Flow>
+        <Flow name="protector-alerts">
+            <Description>Protector alerts special case</Description>
+            <Request>
+                <Step>
+                    <Name>AM-Protector-Alerts-Special-Case</Name>
+                    <Condition>jwt.username = "protector.alerts.account@syngenta.com"</Condition>
+                </Step>
+            </Request>
+            <Response/>
+            <Condition>(proxy.pathsuffix MatchesPath "/v2/accounts/**")</Condition>
+        </Flow>
+        <Flow name="not-found">
+            <Description>Catch-all for undefined routes</Description>
+            <Request>
+                <Step>
+                    <Name>RF-APINotFound</Name>
+                </Step>
+            </Request>
+            <Response/>
+            <Condition>true</Condition>
+        </Flow>
+    </Flows>
+    <HTTPProxyConnection>
+        <BasePath>/cropwise-unified-platform</BasePath>
+        <VirtualHost>default</VirtualHost>
+        <VirtualHost>secure</VirtualHost>
+    </HTTPProxyConnection>
+    <RouteRule name="default">
+        <TargetEndpoint>default</TargetEndpoint>
+    </RouteRule>
+</ProxyEndpoint>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MessageLogging async="true" continueOnError="true" enabled="true" name="FC-Syng-Logging">
+    <DisplayName>FC-Syng-Logging</DisplayName>
+    <Syslog>
+        <Message>[CropwisePlatform][{environment.name}] RequestId={messageid} User={jwt.username} ClientIP={client.ip} Method={request.verb} Path={request.uri} Status={response.status.code} Latency={client.sent.end.timestamp - client.received.start.timestamp}ms</Message>
+        <Host>syslog-dev.internal.com</Host>
+        <Port>514</Port>
+        <Protocol>TCP</Protocol>
+        <FormatMessage>true</FormatMessage>
+    </Syslog>
+</MessageLogging>

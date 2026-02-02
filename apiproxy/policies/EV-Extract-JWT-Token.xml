@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExtractVariables async="false" continueOnError="false" enabled="true" name="EV-Extract-JWT-Token">
+    <DisplayName>EV-Extract-JWT-Token</DisplayName>
+    <Source>request</Source>
+    <Header name="Authorization">
+        <Pattern ignoreCase="true">Bearer {jwt.token}</Pattern>
+    </Header>
+    <VariablePrefix>extracted</VariablePrefix>
+</ExtractVariables>

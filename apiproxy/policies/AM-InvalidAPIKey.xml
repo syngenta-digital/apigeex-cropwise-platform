@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-InvalidAPIKey">
+    <DisplayName>AM-InvalidAPIKey</DisplayName>
+    <Set>
+        <StatusCode>401</StatusCode>
+        <ReasonPhrase>Unauthorized</ReasonPhrase>
+        <Payload contentType="application/json">
+            {
+                "error": "unauthorized",
+                "message": "Invalid or missing API key",
+                "requestId": "{messageid}"
+            }
+        </Payload>
+    </Set>
+    <AssignTo createNew="false" transport="http" type="response"/>
+</AssignMessage>

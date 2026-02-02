@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="1" name="cropwise-unified-platform-proxy">
+    <DisplayName>Cropwise Unified Platform Proxy</DisplayName>
+    <Description>API Proxy for Cropwise Unified Platform</Description>
+    <CreatedAt>1706860800000</CreatedAt>
+    <LastModifiedAt>1706860800000</LastModifiedAt>
+    <Basepaths>/cropwise-unified-platform</Basepaths>
+    <Policies>
+        <Policy>AM-SetTarget</Policy>
+        <Policy>AM-InvalidAPIKey</Policy>
+        <Policy>AM-Apply-ReadOnly-Prefix</Policy>
+        <Policy>AM-Protector-Alerts-Special-Case</Policy>
+        <Policy>AM-Rewrite-OAuth-Token-URI</Policy>
+        <Policy>AM-Rewrite-Remote-Sensing-URI</Policy>
+        <Policy>AM-Set-Default-Rate-Limit</Policy>
+        <Policy>AM-Set-High-Rate-Header</Policy>
+        <Policy>AM-Set-Low-Rate-Header</Policy>
+        <Policy>AM-Set-Medium-Rate-Header</Policy>
+        <Policy>AM-Set-Rate-Limit-Headers</Policy>
+        <Policy>EV-Extract-JWT-Token</Policy>
+        <Policy>FC-Syng-ErrorHandling</Policy>
+        <Policy>FC-Syng-Logging</Policy>
+        <Policy>FC-Syng-Preflow</Policy>
+        <Policy>JS-Handle-ReadOnly-Routes</Policy>
+        <Policy>JS-Parse-JWT-Token</Policy>
+        <Policy>KVM-Get-User-Rate-Limit</Policy>
+        <Policy>RF-APINotFound</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources>
+        <Resource>jsc://handle-readonly-routes.js</Resource>
+        <Resource>jsc://parse-jwt-token.js</Resource>
+    </Resources>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>

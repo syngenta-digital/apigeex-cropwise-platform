@@ -1,0 +1,4 @@
+timestamp,endpoint,proxy_requests,proxy_success_rate,proxy_avg_latency,proxy_median_latency,target_avg_latency,target_median_latency,overhead_ms,overhead_percent
+20260202-183128,/v2/accounts/me,10,100.0,712.23,672.69,946.94,923.91,-234.71,-24.79
+20260202-183545,/v2/accounts/me,10,100.0,864.17,803.77,884.55,841.6,-20.38,-2.3
+20260202-190546,/accounts/me,10,100.0,705.62,689.57,980.79,919.73,-275.17,-28.06

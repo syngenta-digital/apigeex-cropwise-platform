@@ -1,0 +1,40 @@
+{
+    "environments": {
+        "dev": {
+            "name": "dev",
+            "apigee_org": "your-apigee-org",
+            "apigee_env": "dev",
+            "backend_host": "dev.api.insights.cropwise.com",
+            "backend_port": 443,
+            "backend_protocol": "https",
+            "virtual_hosts": ["default", "secure"],
+            "base_path": "/cropwise-unified-platform",
+            "syslog_host": "syslog-dev.internal.com",
+            "syslog_port": 514
+        },
+        "qa": {
+            "name": "qa",
+            "apigee_org": "your-apigee-org",
+            "apigee_env": "qa",
+            "backend_host": "qa.api.insights.cropwise.com",
+            "backend_port": 443,
+            "backend_protocol": "https",
+            "virtual_hosts": ["default", "secure"],
+            "base_path": "/cropwise-unified-platform",
+            "syslog_host": "syslog-qa.internal.com",
+            "syslog_port": 514
+        },
+        "prod": {
+            "name": "prod",
+            "apigee_org": "your-apigee-org",
+            "apigee_env": "prod",
+            "backend_host": "api.insights.cropwise.com",
+            "backend_port": 443,
+            "backend_protocol": "https",
+            "virtual_hosts": ["default", "secure"],
+            "base_path": "/cropwise-unified-platform",
+            "syslog_host": "syslog.internal.com",
+            "syslog_port": 514
+        }
+    }
+}

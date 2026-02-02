@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-Set-Default-Rate-Limit">
+    <DisplayName>AM-Set-Default-Rate-Limit</DisplayName>
+    <AssignVariable>
+        <Name>rate.limit.type</Name>
+        <Value>medium-rate</Value>
+    </AssignVariable>
+    <Set>
+        <Headers>
+            <Header name="x-ratelimit-type">medium-rate</Header>
+        </Headers>
+    </Set>
+    <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>

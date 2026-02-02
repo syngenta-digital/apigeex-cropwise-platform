@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<KeyValueMapOperations async="false" continueOnError="true" enabled="true" name="KVM-Get-User-Rate-Limit" mapIdentifier="user-rate-limits">
+    <DisplayName>KVM-Get-User-Rate-Limit</DisplayName>
+    <Scope>environment</Scope>
+    <Get assignTo="user.rate.limit.type">
+        <Key>
+            <Parameter ref="jwt.username"/>
+        </Key>
+    </Get>
+</KeyValueMapOperations>

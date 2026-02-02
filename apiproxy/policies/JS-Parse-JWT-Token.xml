@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="JS-Parse-JWT-Token">
+    <DisplayName>JS-Parse-JWT-Token</DisplayName>
+    <Properties/>
+    <ResourceURL>jsc://parse-jwt-token.js</ResourceURL>
+</Javascript>

@@ -1,0 +1,68 @@
+{
+    "policies": {
+        "AM-SetTarget": {
+            "description": "Copies Authorization and Content-Type headers to backend",
+            "customizable_fields": {
+                "headers": ["Authorization", "Content-Type"]
+            },
+            "notes": "Add additional headers if your backend requires them"
+        },
+        "FC-Syng-Preflow": {
+            "description": "Initializes request tracking variables",
+            "customizable_fields": {
+                "request_id_header": "x-request-id",
+                "timestamp_variable": "request.received.time"
+            },
+            "notes": "Change header name if your tracing system uses different conventions"
+        },
+        "FC-Syng-Logging": {
+            "description": "Logs API transactions to Syslog",
+            "customizable_fields": {
+                "syslog_host": "ENVIRONMENT_SPECIFIC",
+                "syslog_port": 514,
+                "protocol": "TCP",
+                "message_format": "Custom log format string"
+            },
+            "notes": "Update syslog_host per environment in environments.json"
+        },
+        "FC-Syng-ErrorHandling": {
+            "description": "Standardized error handling for 500 errors",
+            "customizable_fields": {
+                "error_payload_fields": ["code", "message", "requestId"],
+                "include_trace": false
+            },
+            "notes": "Modify error payload structure as needed"
+        },
+        "RF-APINotFound": {
+            "description": "Returns 404 for undefined routes",
+            "customizable_fields": {
+                "support_contact": "Slack channel or email",
+                "error_message": "Custom 404 message"
+            },
+            "notes": "Update support contact for your team"
+        },
+        "AM-InvalidAPIKey": {
+            "description": "Returns 401 for invalid API keys (future use)",
+            "customizable_fields": {
+                "error_message": "Custom unauthorized message"
+            },
+            "notes": "Enable when API key validation is implemented"
+        },
+        "KVM-Get-User-Rate-Limit": {
+            "description": "Looks up user rate limits from Key Value Map",
+            "customizable_fields": {
+                "kvm_name": "user-rate-limits",
+                "default_rate_type": "medium-rate"
+            },
+            "notes": "Create KVM in Apigee with user rate limit mappings"
+        },
+        "JS-Parse-JWT-Token": {
+            "description": "Parses JWT and extracts claims",
+            "customizable_fields": {
+                "required_claims": ["sub", "username", "client_id"],
+                "optional_claims": ["scope", "roles"]
+            },
+            "notes": "Modify parse-jwt-token.js to extract additional claims"
+        }
+    }
+}

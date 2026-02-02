@@ -1,0 +1,36 @@
+{
+    "endpoints": {
+        "default": {
+            "name": "default",
+            "description": "Default target endpoint for Cropwise Unified Platform",
+            "url_template": "{protocol}://{host}:{port}",
+            "path_rewrites": {
+                "/remote-sensing": "/remote-sensing/api",
+                "/v2/accounts": "/api/v2/accounts"
+            }
+        }
+    },
+    "path_mappings": {
+        "/v1/users": {
+            "target": "default",
+            "method": ["GET", "POST", "PUT", "DELETE"]
+        },
+        "/v1/data": {
+            "target": "default",
+            "method": ["GET", "POST"]
+        },
+        "/remote-sensing/v1/imagery": {
+            "target": "default",
+            "method": ["GET"]
+        },
+        "/v2/accounts/ids": {
+            "target": "default",
+            "method": ["GET"]
+        },
+        "/health": {
+            "target": "default",
+            "method": ["GET"],
+            "auth_required": false
+        }
+    }
+}

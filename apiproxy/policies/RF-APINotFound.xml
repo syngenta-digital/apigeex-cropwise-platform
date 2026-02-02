@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RaiseFault async="false" continueOnError="false" enabled="true" name="RF-APINotFound">
+    <DisplayName>RF-APINotFound</DisplayName>
+    <FaultResponse>
+        <Set>
+            <StatusCode>404</StatusCode>
+            <ReasonPhrase>Not Found</ReasonPhrase>
+            <Payload contentType="application/json">
+                {
+                    "error": "not_found",
+                    "message": "The requested resource was not found",
+                    "requestId": "{messageid}",
+                    "path": "{request.uri}",
+                    "support contact": "Contact CropwisePlatform team via slack- #cropwise-platform-support"
+                }
+            </Payload>
+        </Set>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>
