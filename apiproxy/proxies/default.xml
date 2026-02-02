@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ProxyEndpoint name="default">
     <Description>Default proxy endpoint for Cropwise Unified Platform</Description>
-    <FaultRules>
-        <FaultRule name="handle-faults">
-            <Step>
-                <Name>FC-Syng-ErrorHandling</Name>
-            </Step>
-        </FaultRule>
-    </FaultRules>
-    <DefaultFaultRule>
-        <Step>
-            <Name>FC-Syng-ErrorHandling</Name>
-        </Step>
-        <AlwaysEnforce>true</AlwaysEnforce>
-    </DefaultFaultRule>
     <PreFlow name="PreFlow">
         <Request>
+            <!-- JWT Processing with timing -->
             <Step>
-                <Name>FC-Syng-Preflow</Name>
+                <Name>AM-Timestamp-JWT-Start</Name>
+                <Condition>request.header.X-Debug-Performance = "true"</Condition>
             </Step>
             <Step>
                 <Name>EV-Extract-JWT-Token</Name>
@@ -27,12 +16,31 @@
                 <Condition>(jwt.token != null)</Condition>
             </Step>
             <Step>
+                <Name>AM-Timestamp-JWT-End</Name>
+                <Condition>request.header.X-Debug-Performance = "true"</Condition>
+            </Step>
+            <!-- Default rate limit -->
+            <Step>
                 <Name>AM-Set-Default-Rate-Limit</Name>
                 <Condition>(jwt.valid = true) and (user.rate.limit.type = null)</Condition>
+            </Step>
+            <!-- KVM Lookup with timing -->
+            <Step>
+                <Name>AM-Timestamp-KVM-Start</Name>
+                <Condition>request.header.X-Debug-Performance = "true"</Condition>
             </Step>
             <Step>
                 <Name>KVM-Get-User-Rate-Limit</Name>
                 <Condition>(jwt.valid = true) and (jwt.username != null)</Condition>
+            </Step>
+            <Step>
+                <Name>AM-Timestamp-KVM-End</Name>
+                <Condition>request.header.X-Debug-Performance = "true"</Condition>
+            </Step>
+            <!-- Rate Limiting with timing -->
+            <Step>
+                <Name>AM-Timestamp-RateLimit-Start</Name>
+                <Condition>request.header.X-Debug-Performance = "true"</Condition>
             </Step>
             <Step>
                 <Name>AM-Set-Rate-Limit-Headers</Name>
@@ -50,12 +58,20 @@
                 <Name>AM-Set-High-Rate-Header</Name>
                 <Condition>(jwt.valid = true) and ((user.rate.limit.type = "high-rate") or (user.rate.limit.type = "readonly-high-rate"))</Condition>
             </Step>
+            <Step>
+                <Name>AM-Timestamp-RateLimit-End</Name>
+                <Condition>request.header.X-Debug-Performance = "true"</Condition>
+            </Step>
         </Request>
         <Response/>
     </PreFlow>
     <PostFlow name="PostFlow">
         <Request/>
         <Response>
+            <Step>
+                <Name>AM-Add-Performance-Headers</Name>
+                <Condition>(request.header.X-Debug-Performance != null) and (request.header.X-Debug-Performance = "true")</Condition>
+            </Step>
             <Step>
                 <Name>FC-Syng-Logging</Name>
             </Step>

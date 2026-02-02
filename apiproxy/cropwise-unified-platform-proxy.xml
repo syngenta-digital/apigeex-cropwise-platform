@@ -19,9 +19,7 @@
         <Policy>AM-Set-Rate-Limit-Headers</Policy>
         <Policy>AM-Enable-Streaming</Policy>
         <Policy>EV-Extract-JWT-Token</Policy>
-        <Policy>FC-Syng-ErrorHandling</Policy>
         <Policy>FC-Syng-Logging</Policy>
-        <Policy>FC-Syng-Preflow</Policy>
         <Policy>JS-Handle-ReadOnly-Routes</Policy>
         <Policy>JS-Parse-JWT-Token</Policy>
         <Policy>KVM-Get-User-Rate-Limit</Policy>

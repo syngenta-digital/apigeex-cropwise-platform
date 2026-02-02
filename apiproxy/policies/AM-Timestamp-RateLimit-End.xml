@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage name="AM-Timestamp-RateLimit-End">
+    <DisplayName>AM-Timestamp-RateLimit-End</DisplayName>
+    <AssignVariable>
+        <Name>timing.ratelimit.end</Name>
+        <Value>{system.timestamp}</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>timing.ratelimit.duration</Name>
+        <Value>{timing.ratelimit.end - timing.ratelimit.start}</Value>
+    </AssignVariable>
+</AssignMessage>

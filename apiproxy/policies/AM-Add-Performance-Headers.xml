@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage name="AM-Add-Performance-Headers">
+    <DisplayName>AM-Add-Performance-Headers</DisplayName>
+    <Set>
+        <Headers>
+            <!-- Total time (client received start to end) -->
+            <Header name="X-Apigee-Total-Time">{client.received.end.timestamp - client.received.start.timestamp}</Header>
+            
+            <!-- Target backend time (request sent to response received) -->
+            <Header name="X-Apigee-Target-Time">{target.received.end.timestamp - target.sent.start.timestamp}</Header>
+            
+            <!-- Proxy overhead (total - target) -->
+            <Header name="X-Apigee-Proxy-Time">{(client.received.end.timestamp - client.received.start.timestamp) - (target.received.end.timestamp - target.sent.start.timestamp)}</Header>
+            
+            <!-- Request processing time (before target call) -->
+            <Header name="X-Apigee-Request-Processing">{target.sent.start.timestamp - client.received.start.timestamp}</Header>
+            
+            <!-- Response processing time (after target response) -->
+            <Header name="X-Apigee-Response-Processing">{client.received.end.timestamp - target.received.end.timestamp}</Header>
+            
+            <!-- Individual policy times (if captured via timestamp variables) -->
+            <Header name="X-Apigee-JWT-Time">{timing.jwt.duration}</Header>
+            <Header name="X-Apigee-KVM-Time">{timing.kvm.duration}</Header>
+            <Header name="X-Apigee-RateLimit-Time">{timing.ratelimit.duration}</Header>
+            
+            <!-- Network latency estimates -->
+            <Header name="X-Apigee-Network-ClientToProxy">{target.sent.start.timestamp - client.received.start.timestamp - 10}</Header>
+            <Header name="X-Apigee-Network-ProxyToTarget">{target.received.start.timestamp - target.sent.start.timestamp}</Header>
+            
+            <!-- Additional debug info -->
+            <Header name="X-Apigee-Message-ID">{messageid}</Header>
+            <Header name="X-Apigee-Proxy-Name">{apiproxy.name}</Header>
+            <Header name="X-Apigee-Revision">{apiproxy.revision}</Header>
+            <Header name="X-Apigee-Environment">{environment.name}</Header>
+        </Headers>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

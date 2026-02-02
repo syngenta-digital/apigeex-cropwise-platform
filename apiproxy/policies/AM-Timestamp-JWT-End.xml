@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage name="AM-Timestamp-JWT-End">
+    <DisplayName>AM-Timestamp-JWT-End</DisplayName>
+    <AssignVariable>
+        <Name>timing.jwt.end</Name>
+        <Value>{system.timestamp}</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>timing.jwt.duration</Name>
+        <Value>{timing.jwt.end - timing.jwt.start}</Value>
+    </AssignVariable>
+</AssignMessage>

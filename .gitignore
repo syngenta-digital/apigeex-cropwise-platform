@@ -44,8 +44,10 @@ build/
 deployment-*.json
 
 # Test data and logs
+tests/
 tests/debug-logs/
 tests/latency-test/
+latency-test/
 *.json
 !package.json
 

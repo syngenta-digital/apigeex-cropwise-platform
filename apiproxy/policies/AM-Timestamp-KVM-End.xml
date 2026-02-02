@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage name="AM-Timestamp-KVM-End">
+    <DisplayName>AM-Timestamp-KVM-End</DisplayName>
+    <AssignVariable>
+        <Name>timing.kvm.end</Name>
+        <Value>{system.timestamp}</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>timing.kvm.duration</Name>
+        <Value>{timing.kvm.end - timing.kvm.start}</Value>
+    </AssignVariable>
+</AssignMessage>

@@ -2,51 +2,138 @@
 
 ## Overview
 
-This guide covers the deployment process for the Cropwise Unified Platform API proxy to Apigee X.
+This guide covers deploying the Cropwise Unified Platform API proxy to Apigee X with the new performance header instrumentation. The deployment uses a cross-platform Python script that works on Mac, Linux, and Windows.
 
 ## Prerequisites
 
-1. **Python 3.9+** installed
-2. **Google Cloud SDK** installed and configured
-3. **Apigee X** organization access with deployer permissions
-4. **Service Account** with appropriate IAM roles
+### Required Access & Permissions
 
-## Environment Setup
+1. **Apigee X Organization Access**
+   - Organization: `use1-apigeex`
+   - Project: `use1-apigeex`
+   - API Domain: `api.cropwise.com`
+   - Environment: `default-dev` (mapped from `dev`)
 
-### 1. Install Dependencies
+2. **Required IAM Roles**
+   - Apigee API Admin (`roles/apigee.apiAdmin`) - For deploying proxies
+   - Apigee Environment Admin (`roles/apigee.environmentAdmin`) - For managing deployments
+   - Or Project Editor/Owner role with Apigee permissions
+
+3. **Network Requirements**
+   - Access to Apigee Management API: `https://apigee.googleapis.com`
+   - Access to target backend: `https://dev.api.insights.cropwise.com`
+   - Port 443 (HTTPS) outbound access
+
+### Required Tools
+
+1. **Python 3.7+**
+   ```bash
+   python3 --version
+   ```
+
+2. **requests library**
+   ```bash
+   pip3 install requests
+   ```
+
+3. **gcloud CLI** (recommended but optional)
+   ```bash
+   # Install from: https://cloud.google.com/sdk/docs/install
+   gcloud version
+   
+   # Verify you have access to the correct project
+   gcloud config get-value project
+   # Should return: use1-apigeex
+   ```
+
+### Authentication
+
+#### Option 1: Using gcloud (Recommended)
 
 ```bash
-python -m venv venv
-venv\Scripts\activate  # Windows
-pip install -r requirements.txt
+# Login to Google Cloud
+gcloud auth login
+
+# Set your project to use1-apigeex
+gcloud config set project use1-apigeex
+
+# Verify authentication
+gcloud auth print-access-token
+
+# Verify you can access Apigee
+gcloud alpha apigee organizations describe use1-apigeex
 ```
 
-### 2. Configure Environment
+#### Option 2: Manual Token (Alternative)
 
-Copy the example environment file and update with your values:
+If gcloud is not available:
+
+1. Go to Google Cloud Console (https://console.cloud.google.com)
+2. Select project: `use1-apigeex`
+3. Navigate to IAM & Admin > Service Accounts
+4. Create or use existing service account with Apigee Admin role
+5. Generate access token:
+   ```bash
+   # Using service account key
+   gcloud auth activate-service-account --key-file=KEY_FILE.json
+   gcloud auth print-access-token
+   ```
+
+### Environment Mapping
+
+The deployment script automatically maps logical environments to Apigee environments:
+
+| Logical Env | Apigee Environment | Description |
+|-------------|-------------------|-------------|
+| `dev`       | `default-dev`     | Development environment |
+| `qa`        | `default-qa`      | QA/Testing environment |
+| `prod`      | `default-prod`    | Production environment |
+
+### Pre-Deployment Checklist
+
+- [ ] Python 3.7+ installed and accessible
+- [ ] `requests` library installed (`pip install requests`)
+- [ ] gcloud CLI installed and configured (or access token ready)
+- [ ] Authenticated with Google Cloud
+- [ ] Verified access to `use1-apigeex` project
+- [ ] Confirmed IAM permissions for Apigee deployment
+- [ ] Network access to Apigee APIs verified
+
+## Deployment Commands
+
+### 1. Quick Deploy (Default)
+
+Deploy to dev environment using gcloud authentication:
 
 ```bash
-cp .env.example .env
+python scripts/deploy.py --env dev
 ```
 
-Edit `.env`:
-```
-APIGEE_ORG=your-apigee-org
-APIGEE_ENV=dev
-GOOGLE_APPLICATION_CREDENTIALS=C:\path\to\service-account.json
-```
-
-### 3. Authenticate to Google Cloud
+### 2. Deploy with Custom Organization
 
 ```bash
-gcloud auth application-default login
+python scripts/deploy.py --env dev --org YOUR_ORG_NAME
 ```
 
-## Deployment Steps
+### 3. Deploy with Manual Token
 
-### Step 1: Validate Proxy
+```bash
+python scripts/deploy.py --env dev \
+  --org YOUR_ORG_NAME \
+  --token YOUR_ACCESS_TOKEN
+```
 
-Before deploying, validate the proxy structure:
+### 4. Create Bundle Only (No Deployment)
+
+```bash
+python scripts/deploy.py --env dev --bundle-only
+```
+
+### 5. Dry Run (Test Prerequisites)
+
+```bash
+python scripts/deploy.py --env dev --dry-run
+```
 
 ```bash
 python scripts/generate_proxy.py --env dev --validate

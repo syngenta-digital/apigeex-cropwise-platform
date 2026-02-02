@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage name="AM-Timestamp-KVM-Start">
+    <DisplayName>AM-Timestamp-KVM-Start</DisplayName>
+    <AssignVariable>
+        <Name>timing.kvm.start</Name>
+        <Value>{system.timestamp}</Value>
+    </AssignVariable>
+</AssignMessage>
