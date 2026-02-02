@@ -42,3 +42,17 @@ build/
 # Apigee bundles
 *.bundle.zip
 deployment-*.json
+
+# Test data and logs
+tests/debug-logs/
+tests/latency-test/
+*.json
+!package.json
+
+# SSH Keys and sensitive data
+keys/
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
